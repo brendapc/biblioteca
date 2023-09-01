@@ -15,5 +15,5 @@ public interface IAcervoRepository {
     Set<String> getAutores();
     Set<String> getAutoresAno(int ano);
     List<String> getTitulosAutorAno(String autor,int ano);
-    Livro updateLivro(Long id, Livro livro);
+    boolean updateLivro(Long id, Livro livro);
 }

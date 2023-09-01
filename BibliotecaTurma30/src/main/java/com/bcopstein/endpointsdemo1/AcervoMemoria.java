@@ -2,6 +2,7 @@ package com.bcopstein.endpointsdemo1;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,24 +23,29 @@ public class AcervoMemoria implements IAcervoRepository {
     }
 
     @Override
-    public Livro updateLivro(Long codigo, Livro livro) {
-        Livro livroExistente = getPorId(codigo);
+    public boolean updateLivro(Long codigo, Livro livroAtualizado) {
+        Optional<Livro> livroParaAtualizar = livros.stream()
+            .filter(livro -> livro.codigo().equals(codigo))
+            .findFirst();
 
-        if (livroExistente != null) {
-            boolean deleteSuccess = removeLivro(codigo);
-            System.out.println(deleteSuccess);
+        if (livroParaAtualizar.isPresent()) {
+            Livro livro = livroParaAtualizar.get();
+            Livro livroComAtualizacoes = new Livro(
+                livro.codigo(),
+                livroAtualizado.titulo(),
+                livroAtualizado.autor(),
+                livroAtualizado.ano()
+            );
 
-            if (deleteSuccess) {
-                boolean livroResultado = cadastraLivroNovo(livro);
-                System.out.println(livroResultado);
+            int index = livros.indexOf(livro);
+            livros.set(index, livroComAtualizacoes);
 
-                if (livroResultado) {
-                    return livro;
-                }
-            }
+            return true; 
         }
-        return null;
+
+        return false; 
     }
+
 
     @Override
     public Livro getPorId(Long codigo) {

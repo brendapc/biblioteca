@@ -20,24 +20,14 @@ public class AcervoBanco implements IAcervoRepository {
     }
 
     @Override
-    public Livro updateLivro(Long codigo, Livro livro) {
-        Livro livroExistente = getPorId(codigo);
-
-        if (livroExistente != null) {
-            boolean deleteSuccess = removeLivro(codigo);
-            System.out.println(deleteSuccess);
-
-            if (deleteSuccess) {
-                boolean livroResultado = cadastraLivroNovo(livro);
-                System.out.println(livroResultado);
-
-                if (livroResultado) {
-                    return livro;
-                }
-            }
-        }
-        return null;
+    public boolean updateLivro(Long codigo, Livro livro) {
+        String sql = "UPDATE Livros SET titulo = ?, autor = ?, ano_publicacao = ? WHERE codigo = ?";
+        
+        int rowsAffected = jdbcTemplate.update(sql, livro.titulo(), livro.autor(), livro.ano(), codigo);
+    
+        return rowsAffected > 0;
     }
+    
 
     @Override
     public Set<String> getAutoresAno(int ano) {

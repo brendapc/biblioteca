@@ -78,7 +78,7 @@ public class DemoController{
 
     @PatchMapping("/livro")
     @CrossOrigin(origins = "*")
-    public Livro updateLivro(@RequestParam(value="codigo") Long codigo, @RequestBody()Livro livro){
+    public boolean updateLivro(@RequestParam(value="codigo") Long codigo, @RequestBody()Livro livro){
        
         return acervo.updateLivro(codigo, livro);
     }
