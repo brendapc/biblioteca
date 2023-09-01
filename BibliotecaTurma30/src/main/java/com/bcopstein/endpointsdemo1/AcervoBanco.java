@@ -20,6 +20,28 @@ public class AcervoBanco implements IAcervoRepository {
     }
 
     @Override
+    public Livro updateLivro(Long codigo, Livro livro) {
+        Livro livroExistente = getPorId(codigo);
+
+        if (livroExistente != null) {
+            // The livro exists, so remove it
+            boolean deleteSuccess = removeLivro(codigo);
+            System.out.println(deleteSuccess);
+
+            if (deleteSuccess) {
+                // If removal was successful, add the updated livro
+                boolean livroResultado = cadastraLivroNovo(livro);
+                System.out.println(livroResultado);
+
+                if (livroResultado) {
+                    return livro;
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
     public Set<String> getAutoresAno(int ano) {
         return jdbcTemplate.query("SELECT autor FROM Livros WHERE ano = ?",
                                   (rs, rowNum) -> rs.getString("autor"),

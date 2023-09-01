@@ -22,6 +22,19 @@ public class AcervoMemoria implements IAcervoRepository {
     }
 
     @Override
+    public Livro updateLivro(Long codigo, Livro livro) {
+        Livro livroExistente = getPorId(codigo);
+
+        boolean deleteSuccess = removeLivro(codigo);
+        if(deleteSuccess){
+            boolean livroResultado = cadastraLivroNovo(livro);
+            if(livroResultado) return livro;
+        }
+    
+        return livroExistente;
+    }
+
+    @Override
     public Livro getPorId(Long codigo) {
         return livros.stream()
                      .filter(livro->livro.codigo() == codigo)

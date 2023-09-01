@@ -5,9 +5,12 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -67,4 +70,16 @@ public class DemoController{
         return acervo.cadastraLivroNovo(livro);
     }    
 
+    @DeleteMapping("/livro")
+    @CrossOrigin(origins = "*")
+    public boolean removeLivro(@RequestParam(value="codigo")Long codigo){
+        return acervo.removeLivro(codigo);
+    }
+
+    @PatchMapping("/livro")
+    @CrossOrigin(origins = "*")
+    public Livro updateLivro(@RequestParam(value="codigo") Long codigo, @RequestBody()Livro livro){
+       
+        return acervo.updateLivro(codigo, livro);
+    }
 }
