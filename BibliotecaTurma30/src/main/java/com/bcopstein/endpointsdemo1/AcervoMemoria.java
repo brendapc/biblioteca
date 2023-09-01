@@ -25,13 +25,20 @@ public class AcervoMemoria implements IAcervoRepository {
     public Livro updateLivro(Long codigo, Livro livro) {
         Livro livroExistente = getPorId(codigo);
 
-        boolean deleteSuccess = removeLivro(codigo);
-        if(deleteSuccess){
-            boolean livroResultado = cadastraLivroNovo(livro);
-            if(livroResultado) return livro;
+        if (livroExistente != null) {
+            boolean deleteSuccess = removeLivro(codigo);
+            System.out.println(deleteSuccess);
+
+            if (deleteSuccess) {
+                boolean livroResultado = cadastraLivroNovo(livro);
+                System.out.println(livroResultado);
+
+                if (livroResultado) {
+                    return livro;
+                }
+            }
         }
-    
-        return livroExistente;
+        return null;
     }
 
     @Override

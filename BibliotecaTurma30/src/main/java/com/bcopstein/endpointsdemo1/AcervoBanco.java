@@ -24,12 +24,10 @@ public class AcervoBanco implements IAcervoRepository {
         Livro livroExistente = getPorId(codigo);
 
         if (livroExistente != null) {
-            // The livro exists, so remove it
             boolean deleteSuccess = removeLivro(codigo);
             System.out.println(deleteSuccess);
 
             if (deleteSuccess) {
-                // If removal was successful, add the updated livro
                 boolean livroResultado = cadastraLivroNovo(livro);
                 System.out.println(livroResultado);
 
